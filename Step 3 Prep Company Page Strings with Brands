@@ -1,0 +1,23 @@
+from bs4 import BeautifulSoup
+
+import requests
+
+url = ('#INSERT BRAND URL')
+html_text = requests.get(url).text
+
+req = requests.get(url)
+
+soup = BeautifulSoup(html_text, 'lxml')
+data = BeautifulSoup(req.text, 'lxml')
+name = soup.find('h1', class_ ='title single').text
+addressdata = soup.find('div', class_ ='row')
+address = addressdata.find('address').text
+otherdata = soup.find_all('div', class_ ='row')
+alldata = soup.find_all('div')
+data1 = data.find('div', class_ ='accordion-content').text
+
+
+print("name = '", name,)
+print("brands = ","'",data1,"'")
+print("s = '''", url)
+print(otherdata, "'''")
