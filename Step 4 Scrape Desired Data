@@ -1,0 +1,64 @@
+import re
+
+
+
+name = 'La Tenda'
+
+brands =  '7 For All Mankind, AG Adriano Goldschmied, Alberta Ferretti, Aspesi, Avant Toi, Aviu, Bacon, Blancha, Brunello Cucinelli, Cividini, Del Cima, Dont Cry Milan, DROMe, Eggs, Enza Costa , Equipment, GioGuerreri, Giorgio Brato, Goldsign, Hebe Studio, Henry Beguelin, Herno, James Perse, Majestic Filatures, Maria Calderara, Melys, Metamorfosi, Moncler, Mr. Mrs. Shirt, Neil Barrett, NewYork Industrie, Nigel Preston & Knight, N_8, Original Vintage, Piazza Sempione,  Saulina Milano, Saverio Palatella, Sqel, Stefano Mortari, Sword 6.6.44, Tatras, Ter Et Bantine, Tessa & Flo, Tessile Officina, Thinple, Ursula Conzen, Velvet, Very Busy, Vittoria Sedici, Von Vonni, Walter Voulaz'
+s = ''' https://www.shoppingmap.it/negozi/2117-la_tenda.html
+[<div class="row">
+<i class="icon icon-place"></i>
+<span><address>Via Solferino 1o, Milano (Milano), Italia</address></span>
+</div>, <div class="row">
+<i class="icon icon-phone"></i>
+<span><a href="tel:026575804">02.6575804</a></span>
+</div>, <div class="row">
+<i class="icon icon-world"></i>
+<span><a href="http://www.latendamilano.com" target="_blank">www.latendamilano.com</a></span>
+</div>, <div class="row">
+<i class="icon icon-mail"></i>
+<span><a data-placement="bottom" data-toggle="tooltip" href="/cdn-cgi/l/email-protection#88e1e6eee7c8e4e9fcede6ece9e5e1e4e9e6e7a6ebe7e5" title="info@latendamilano.com"><span class="__cf_email__" data-cfemail="254c4b434a65494451404b4144484c49444b4a0b464a48">[email�protected]</span></a></span>
+</div>, <div class="row">
+<strong>Luned�</strong>
+<span>Chiuso</span>
+</div>, <div class="row">
+<strong>Marted�</strong>
+<span>Chiuso</span>
+</div>, <div class="row">
+<strong>Mercoled�</strong>
+<span>Chiuso</span>
+</div>, <div class="row">
+<strong>Gioved�</strong>
+<span>Chiuso</span>
+</div>, <div class="row">
+<strong>Venerd�</strong>
+<span>Chiuso</span>
+</div>, <div class="row">
+<strong>Sabato</strong>
+<span>Chiuso</span>
+</div>, <div class="row">
+<strong>Domenica</strong>
+<span>10:00-13:30,15:00-19:00</span>
+</div>] '''
+
+approvedbrands = ['Alexander McQueen', 'Alexander Wang', 'Balenciaga', 'Balmain', 'Berluti', 'Bottega Veneta', 'Burberry', 'Calvin Klein', 'Celine', 'Chanel', 'Chloe', 'Comme Des Garcons', 'Diesel', 'Dior', 'DKNY', 'Dolce & Gabbana', 'DSquared2', 'Ermenegildo Zegna', 'Fendi', 'Giambattista Valli', 'Giorgio Armani', 'Givenchy', 'Gucci', 'Hermes', 'Hugo Boss', 'Isabel Marant', 'Kenzo', 'Lacoste', 'Lanvin', 'Louis Vuitton', 'Maison Margiela', 'Marni', 'Max Mara', 'Michael Kors', 'Miu Miu', 'Moschino', 'Off-White', 'Oscar de la Renta', 'Paul Smith', 'Prada', 'Ralph Lauren', 'Saint Laurent', 'Salvatore Ferragamo', 'Stella McCartney', 'Thom Browne', 'Tom Ford', 'Valentino', 'Versace', 'Victoria Beckham', 'Zimmerman', 'Versace', 'Dior']
+
+matchedbrands = any(item in brands for item in approvedbrands)
+
+origurlmatch = re.search(r'https:(.*?)\.html', s).group(1)
+phonematch = re.search(r'tel:(.*?)">+', s).group(1)
+emailmatch = re.search(r'title="(.*?)"><', s).group(1)
+sitematch = re.search(r'href="(.*?)" target="_blank">', s).group(1)
+addressmatch = re.search(r'<address>(.*?)</address>', s).group(1)
+
+txt_file = open("3-5-22.txt", "a")
+txt_file.write(f'''
+{name};Original URL;{origurlmatch}
+{name};Website;{sitematch}
+{name};Email;{emailmatch}
+{name};Phone;{phonematch}
+{name};Address;{addressmatch}
+{name};Brands;{brands}
+{name};Brand Match;{matchedbrands}
+''')
+txt_file.close()
